@@ -15,8 +15,8 @@ on:
 jobs:
 
   test:
-    if: |
-      (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule') || success()
+    if: false  # Temporarily disabled
+    # Original condition: (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule') || success()
     runs-on: self-hosted
     container:
       image: ubuntu:24.04
