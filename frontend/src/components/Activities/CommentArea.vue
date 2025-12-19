@@ -24,12 +24,7 @@
     >
       <div class="prose-f" v-html="activity.content" />
       <div v-if="activity.attachments.length" class="mt-2 flex flex-wrap gap-2">
-        <AttachmentItem
-          v-for="a in activity.attachments"
-          :key="a.file_url"
-          :label="a.file_name"
-          :url="a.file_url"
-        />
+        <AttachmentItem v-for="a in activity.attachments" :key="a.file_url" :label="a.file_name" :url="a.file_url" />
       </div>
     </div>
   </div>

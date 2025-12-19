@@ -15,10 +15,7 @@
     }"
     row-key="name"
   >
-    <ListHeader
-      class="sm:mx-5 mx-3"
-      @columnWidthUpdated="emit('columnWidthUpdated')"
-    >
+    <ListHeader class="sm:mx-5 mx-3" @columnWidthUpdated="emit('columnWidthUpdated')">
       <ListHeaderItem
         v-for="column in columns"
         :key="column.key"
@@ -68,13 +65,7 @@
             />
           </div>
           <div v-else-if="column.key === 'customer'">
-            <Avatar
-              v-if="item"
-              class="flex items-center"
-              :image="item"
-              :label="item"
-              size="sm"
-            />
+            <Avatar v-if="item" class="flex items-center" :image="item" :label="item" size="sm" />
           </div>
           <div v-else-if="column.key === 'lead_owner'">
             <Avatar
@@ -92,13 +83,7 @@
         <template #default="{ label }">
           <div
             v-if="
-              [
-                'modified',
-                'creation',
-                'first_response_time',
-                'first_responded_on',
-                'response_by',
-              ].includes(column.key)
+              ['modified', 'creation', 'first_response_time', 'first_responded_on', 'response_by'].includes(column.key)
             "
             class="truncate text-base"
             @click="
@@ -132,10 +117,7 @@
               <HeartIcon class="h-4 w-4" />
             </Button>
           </div>
-          <div
-            v-else-if="column.key === 'sla_status'"
-            class="truncate text-base"
-          >
+          <div v-else-if="column.key === 'sla_status'" class="truncate text-base">
             <Badge
               v-if="item.value"
               :variant="'subtle'"
@@ -155,12 +137,7 @@
             />
           </div>
           <div v-else-if="column.type === 'Check'">
-            <FormControl
-              type="checkbox"
-              :modelValue="item"
-              :disabled="true"
-              class="text-ink-gray-9"
-            />
+            <FormControl type="checkbox" :modelValue="item" :disabled="true" class="text-ink-gray-9" />
           </div>
           <div
             v-else
@@ -183,9 +160,7 @@
     </ListRows>
     <ListSelectBanner>
       <template #actions="{ selections, unselectAll }">
-        <Dropdown
-          :options="listBulkActionsRef.bulkActions(selections, unselectAll)"
-        >
+        <Dropdown :options="listBulkActionsRef.bulkActions(selections, unselectAll)">
           <Button icon="more-horizontal" variant="ghost" />
         </Dropdown>
       </template>
@@ -282,8 +257,6 @@ watch(pageLengthCount, (val, old_value) => {
 const listBulkActionsRef = ref(null)
 
 defineExpose({
-  customListActions: computed(
-    () => listBulkActionsRef.value?.customListActions,
-  ),
+  customListActions: computed(() => listBulkActionsRef.value?.customListActions),
 })
 </script>

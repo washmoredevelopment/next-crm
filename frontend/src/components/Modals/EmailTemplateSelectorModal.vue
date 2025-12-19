@@ -1,15 +1,7 @@
 <template>
-  <Dialog
-    v-model="show"
-    :options="{ title: __('Email Templates'), size: '4xl' }"
-  >
+  <Dialog v-model="show" :options="{ title: __('Email Templates'), size: '4xl' }">
     <template #body-content>
-      <TextInput
-        ref="searchInput"
-        v-model="search"
-        type="text"
-        :placeholder="__('Payment Reminder')"
-      >
+      <TextInput ref="searchInput" v-model="search" type="text" :placeholder="__('Payment Reminder')">
         <template #prefix>
           <FeatherIcon name="search" class="h-4 w-4 text-ink-gray-4" />
         </template>
@@ -69,10 +61,7 @@
       </div>
     </template>
   </Dialog>
-  <EmailTemplateModal
-    v-model="showEmailTemplateModal"
-    :emailTemplate="emailTemplate"
-  />
+  <EmailTemplateModal v-model="showEmailTemplateModal" :emailTemplate="emailTemplate" />
 </template>
 
 <script setup>

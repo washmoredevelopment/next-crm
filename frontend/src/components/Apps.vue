@@ -18,7 +18,9 @@
       </button>
     </template>
     <template #body>
-      <div class="grid grid-cols-3 justify-between mx-3 p-2 min-w-40 rounded-lg bg-surface-modal shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+      <div
+        class="grid grid-cols-3 justify-between mx-3 p-2 min-w-40 rounded-lg bg-surface-modal shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
+      >
         <div v-for="app in apps.data" :key="app.name">
           <a
             :href="app.route"

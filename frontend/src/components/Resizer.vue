@@ -63,8 +63,7 @@ function resize(e) {
     el.classList.remove('select-text')
     el.classList.add('select-text1')
   })
-  sidebarWidth.value =
-    props.side == 'left' ? e.clientX : window.innerWidth - e.clientX
+  sidebarWidth.value = props.side == 'left' ? e.clientX : window.innerWidth - e.clientX
 
   let gap = props.parent ? distance() : 0
   sidebarWidth.value = sidebarWidth.value - gap

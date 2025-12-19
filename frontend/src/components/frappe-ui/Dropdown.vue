@@ -1,10 +1,6 @@
 <template>
   <Menu as="div" class="relative inline-block text-left" v-slot="{ open }">
-    <Popover
-      :transition="dropdownTransition"
-      :show="open"
-      :placement="popoverPlacement"
-    >
+    <Popover :transition="dropdownTransition" :show="open" :placement="popoverPlacement">
       <template #target="{ togglePopover }">
         <MenuButton as="template">
           <slot v-if="$slots.default" v-bind="{ open, togglePopover }" />
@@ -38,17 +34,9 @@
               >
                 {{ group.group }}
               </div>
-              <MenuItem
-                v-for="item in group.items"
-                :key="item.label"
-                v-slot="{ active }"
-              >
+              <MenuItem v-for="item in group.items" :key="item.label" v-slot="{ active }">
                 <slot name="item" v-bind="{ item, active }">
-                  <component
-                    v-if="item.component"
-                    :is="item.component"
-                    :active="active"
-                  />
+                  <component v-if="item.component" :is="item.component" :active="active" />
                   <button
                     v-else
                     :class="[
@@ -119,9 +107,7 @@ const dropdownTransition = {
 }
 
 const groups = computed(() => {
-  let groups = props.options[0]?.group
-    ? props.options
-    : [{ group: '', items: props.options }]
+  let groups = props.options[0]?.group ? props.options : [{ group: '', items: props.options }]
 
   return groups.map((group, i) => {
     return {

@@ -2,19 +2,11 @@
   <div>
     <div class="mb-1 flex items-center justify-stretch gap-2 py-1 text-base">
       <div class="inline-flex items-center flex-wrap gap-1 text-ink-gray-5">
-        <Avatar
-          :image="activity.caller.image"
-          :label="activity.caller.label"
-          size="md"
-        />
+        <Avatar :image="activity.caller.image" :label="activity.caller.label" size="md" />
         <span class="font-medium text-ink-gray-8 ml-1">
           {{ activity.caller.label }}
         </span>
-        <span>{{
-          activity.type == 'Incoming'
-            ? __('has reached out')
-            : __('has made a call')
-        }}</span>
+        <span>{{ activity.type == 'Incoming' ? __('has reached out') : __('has made a call') }}</span>
       </div>
       <div class="ml-auto whitespace-nowrap">
         <Tooltip :text="dateFormat(activity.creation, dateTooltipFormat)">
@@ -24,17 +16,11 @@
         </Tooltip>
       </div>
     </div>
-    <div
-      class="flex flex-col gap-2 border border-gray-200 rounded-md bg-surface-white px-3 py-2.5 text-ink-gray-9"
-    >
+    <div class="flex flex-col gap-2 border border-gray-200 rounded-md bg-surface-white px-3 py-2.5 text-ink-gray-9">
       <div class="flex items-center justify-between">
         <div class="inline-flex gap-2 items-center text-base font-medium">
           <div>
-            {{
-              activity.type == 'Incoming'
-                ? __('Inbound Call')
-                : __('Outbound Call')
-            }}
+            {{ activity.type == 'Incoming' ? __('Inbound Call') : __('Outbound Call') }}
           </div>
         </div>
         <div>
@@ -76,15 +62,9 @@
             <PlayIcon class="size-3" />
           </template>
         </Badge>
-        <Badge
-          :label="statusLabelMap[activity.status]"
-          :theme="statusColorMap[activity.status]"
-        />
+        <Badge :label="statusLabelMap[activity.status]" :theme="statusColorMap[activity.status]" />
       </div>
-      <div
-        v-if="activity.show_recording && activity.recording_url"
-        class="flex flex-col items-center justify-between"
-      >
+      <div v-if="activity.show_recording && activity.recording_url" class="flex flex-col items-center justify-between">
         <AudioPlayer :src="activity.recording_url" />
       </div>
     </div>

@@ -1,11 +1,5 @@
 <template>
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g filter="url(#filter0_b_525_5376)">
       <path
         fill-rule="evenodd"
@@ -26,17 +20,8 @@
       >
         <feFlood flood-opacity="0" result="BackgroundImageFix" />
         <feGaussianBlur in="BackgroundImageFix" stdDeviation="2" />
-        <feComposite
-          in2="SourceAlpha"
-          operator="in"
-          result="effect1_backgroundBlur_525_5376"
-        />
-        <feBlend
-          mode="normal"
-          in="SourceGraphic"
-          in2="effect1_backgroundBlur_525_5376"
-          result="shape"
-        />
+        <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_525_5376" />
+        <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_525_5376" result="shape" />
       </filter>
     </defs>
   </svg>

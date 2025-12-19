@@ -3,7 +3,13 @@
     <template v-slot="{ open }">
       <button
         class="flex h-12 items-center rounded-md py-2 duration-300 ease-in-out"
-        :class="isCollapsed ? 'w-auto px-0' : open ? 'w-52 bg-surface-white px-2 shadow-sm' : 'w-52 px-2 hover:bg-surface-gray-3'"
+        :class="
+          isCollapsed
+            ? 'w-auto px-0'
+            : open
+              ? 'w-52 bg-surface-white px-2 shadow-sm'
+              : 'w-52 px-2 hover:bg-surface-gray-3'
+        "
       >
         <CRMLogo class="size-8 flex-shrink-0 rounded" />
         <div

@@ -1,11 +1,5 @@
 <template>
-  <svg
-    viewBox="0 0 15 15"
-    width="15"
-    preserveAspectRatio="xMidYMid meet"
-    class=""
-    fill="none"
-  >
+  <svg viewBox="0 0 15 15" width="15" preserveAspectRatio="xMidYMid meet" class="" fill="none">
     <title>react</title>
     <path
       fill-rule="evenodd"

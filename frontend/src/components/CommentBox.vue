@@ -11,40 +11,23 @@
   >
     <template v-slot:editor="{ editor }">
       <EditorContent
-        :class="[
-          editable &&
-            'sm:mx-10 mx-4 max-h-[50vh] overflow-y-auto border-t py-3',
-        ]"
+        :class="[editable && 'sm:mx-10 mx-4 max-h-[50vh] overflow-y-auto border-t py-3']"
         :editor="editor"
       />
     </template>
     <template v-slot:bottom>
       <div v-if="editable" class="flex flex-col gap-2">
         <div class="flex flex-wrap gap-2 sm:px-10 px-4">
-          <AttachmentItem
-            v-for="a in attachments"
-            :key="a.file_url"
-            :label="a.file_name"
-          >
+          <AttachmentItem v-for="a in attachments" :key="a.file_url" :label="a.file_name">
             <template #suffix>
-              <FeatherIcon
-                class="h-3.5"
-                name="x"
-                @click.stop="removeAttachment(a)"
-              />
+              <FeatherIcon class="h-3.5" name="x" @click.stop="removeAttachment(a)" />
             </template>
           </AttachmentItem>
         </div>
-        <div
-          class="flex justify-between gap-2 overflow-hidden border-t sm:px-10 px-4 py-2.5"
-        >
+        <div class="flex justify-between gap-2 overflow-hidden border-t sm:px-10 px-4 py-2.5">
           <div class="flex gap-1 items-center overflow-x-auto">
             <TextEditorBubbleMenu :buttons="textEditorMenuButtons" />
-            <IconPicker
-              v-model="emoji"
-              v-slot="{ togglePopover }"
-              @update:modelValue="() => appendEmoji()"
-            >
+            <IconPicker v-model="emoji" v-slot="{ togglePopover }" @update:modelValue="() => appendEmoji()">
               <Button variant="ghost" @click="togglePopover()">
                 <template #icon>
                   <SmileIcon class="h-4" />
@@ -60,11 +43,7 @@
               @success="(f) => attachments.push(f)"
             >
               <template #default="{ openFileSelector }">
-                <Button
-                  theme="gray"
-                  variant="ghost"
-                  @click="openFileSelector()"
-                >
+                <Button theme="gray" variant="ghost" @click="openFileSelector()">
                   <template #icon>
                     <AttachmentIcon class="h-4" />
                   </template>
@@ -74,11 +53,7 @@
           </div>
           <div class="mt-2 flex items-center justify-end space-x-2 sm:mt-0">
             <Button v-bind="discardButtonProps || {}" :label="__('Discard')" />
-            <Button
-              variant="solid"
-              v-bind="submitButtonProps || {}"
-              :label="__('Comment')"
-            />
+            <Button variant="solid" v-bind="submitButtonProps || {}" :label="__('Comment')" />
           </div>
         </div>
       </div>

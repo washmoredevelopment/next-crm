@@ -1,38 +1,21 @@
 <template>
   <div class="flex flex-col gap-1.5 border-b sm:px-6 py-3 px-4">
-    <div
-      v-for="s in slaSection"
-      :key="s.label"
-      class="flex items-center gap-2 text-base leading-5"
-    >
+    <div v-for="s in slaSection" :key="s.label" class="flex items-center gap-2 text-base leading-5">
       <div class="sm:w-[106px] w-36 text-sm text-ink-gray-5">
         {{ __(s.label) }}
       </div>
       <div class="grid min-h-[28px] items-center">
         <Tooltip v-if="s.tooltipText" :text="__(s.tooltipText)">
           <div class="ml-2 cursor-pointer">
-            <Badge
-              v-if="s.type == 'Badge'"
-              class="-ml-1"
-              :label="s.value"
-              variant="subtle"
-              :theme="s.color"
-            />
+            <Badge v-if="s.type == 'Badge'" class="-ml-1" :label="s.value" variant="subtle" :theme="s.color" />
             <div v-else>{{ s.value }}</div>
           </div>
         </Tooltip>
-        <Dropdown
-          class="form-control"
-          v-if="s.type == 'Select'"
-          :options="s.options"
-        >
+        <Dropdown class="form-control" v-if="s.type == 'Select'" :options="s.options">
           <template #default="{ open }">
             <Button :label="s.value">
               <template #suffix>
-                <FeatherIcon
-                  :name="open ? 'chevron-up' : 'chevron-down'"
-                  class="h-4"
-                />
+                <FeatherIcon :name="open ? 'chevron-up' : 'chevron-down'" class="h-4" />
               </template>
             </Button>
           </template>
@@ -57,12 +40,7 @@ let slaSection = computed(() => {
   let sections = []
   let status = data.value.sla_status
   let tooltipText = status
-  let color =
-    data.value.sla_status == 'Failed'
-      ? 'red'
-      : data.value.sla_status == 'Fulfilled'
-        ? 'green'
-        : 'orange'
+  let color = data.value.sla_status == 'Failed' ? 'red' : data.value.sla_status == 'Fulfilled' ? 'green' : 'orange'
 
   if (status == 'First Response Due') {
     status = timeAgo(data.value.response_by)
