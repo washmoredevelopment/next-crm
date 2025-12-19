@@ -1,7 +1,7 @@
 // @ts-check
 const { defineConfig, devices } = require("@playwright/test");
-import path from "path";
-import dotenv from "dotenv";
+const path = require("path");
+const dotenv = require("dotenv");
 
 // Load environment variables from .env in this folder
 dotenv.config({ path: "./.env" });
