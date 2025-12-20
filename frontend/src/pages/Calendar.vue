@@ -616,10 +616,16 @@ function getFromToTime(time) {
       fromMinute = parseInt(mm) || 0
     }
   }
-  const toHour = (fromHour + 1) % 24
+  // Clamp to 23:59 if adding an hour would wrap past midnight
+  let toHour = fromHour + 1
+  let toMinute = fromMinute
+  if (toHour >= 24) {
+    toHour = 23
+    toMinute = 59
+  }
   return [
     `${pad(fromHour)}:${pad(fromMinute)}`,
-    `${pad(toHour)}:${pad(fromMinute)}`,
+    `${pad(toHour)}:${pad(toMinute)}`,
   ]
 }
 

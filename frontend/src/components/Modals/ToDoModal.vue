@@ -489,11 +489,14 @@ async function updateToDo() {
           return
         }
       }
+      // Use explicit reference_type if set (including empty string for "None"), otherwise fall back to props
+      const refType = _todo.value.reference_type !== undefined ? _todo.value.reference_type : props.doctype
+      const refName = _todo.value.reference_name !== undefined ? _todo.value.reference_name : props.doc || null
       let d = await call('frappe.client.insert', {
         doc: {
           doctype: 'ToDo',
-          reference_type: _todo.value.reference_type || props.doctype,
-          reference_name: _todo.value.reference_name || props.doc || null,
+          reference_type: refType || null,
+          reference_name: refType ? refName : null,
           ..._todo.value,
         },
       })
