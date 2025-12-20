@@ -13,6 +13,7 @@
           :label="__('Notifications')"
           :icon="NotificationsIcon"
           :isCollapsed="isSidebarCollapsed"
+          :description="tooltipsConfig.sidebar.Notifications"
           @click="() => toggleNotificationPanel()"
           class="relative mx-2 my-0.5"
         >
@@ -84,6 +85,7 @@
               :label="__(link.label)"
               :to="link.to"
               :isCollapsed="isSidebarCollapsed"
+              :description="link.description"
               class="mx-2 my-0.5"
             />
           </nav>
@@ -139,6 +141,7 @@ import { FeatherIcon } from 'frappe-ui'
 import { useStorage } from '@vueuse/core'
 import { computed, h, onBeforeUnmount, onMounted, ref } from 'vue'
 import { hiddenPages } from '../../composables/settings'
+import tooltipsConfig from '@/config/tooltips.json'
 
 const { getPinnedViews, getPublicViews } = viewsStore()
 const { toggle: toggleNotificationPanel } = notificationsStore()
@@ -152,56 +155,67 @@ const links = computed(() =>
       label: 'Leads',
       icon: LeadsIcon,
       to: 'Leads',
+      description: tooltipsConfig.sidebar.Leads,
     },
     {
       label: 'Opportunities',
       icon: OpportunitiesIcon,
       to: 'Opportunities',
+      description: tooltipsConfig.sidebar.Opportunities,
     },
     {
       label: 'Prospects',
       icon: ProspectsIcon,
       to: 'Prospects',
+      description: tooltipsConfig.sidebar.Prospects,
     },
     {
       label: 'Contacts',
       icon: ContactsIcon,
       to: 'Contacts',
+      description: tooltipsConfig.sidebar.Contacts,
     },
     {
       label: 'Addresses',
       icon: AddressIcon,
       to: 'Addresses',
+      description: tooltipsConfig.sidebar.Addresses,
     },
     {
       label: 'Customers',
       icon: CustomersIcon,
       to: 'Customers',
+      description: tooltipsConfig.sidebar.Customers,
     },
     {
       label: 'Calendar',
       icon: CalendarIcon,
       to: 'Calendar',
+      description: tooltipsConfig.sidebar.Calendar,
     },
     {
       label: 'Reports',
       icon: FileTextIcon,
       to: 'Reports',
+      description: tooltipsConfig.sidebar.Reports,
     },
     {
       label: 'ToDos',
       icon: ToDoIcon,
       to: 'ToDos',
+      description: tooltipsConfig.sidebar.ToDos,
     },
     {
       label: 'Call Logs',
       icon: PhoneIcon,
       to: 'Call Logs',
+      description: tooltipsConfig.sidebar['Call Logs'],
     },
     {
       label: 'Email Templates',
       icon: Email2Icon,
       to: 'Email Templates',
+      description: tooltipsConfig.sidebar['Email Templates'],
     },
   ].filter((link) => !hiddenPages.value.includes(link.label)),
 )
