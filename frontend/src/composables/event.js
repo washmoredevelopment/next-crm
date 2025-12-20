@@ -1,7 +1,7 @@
 import { usersStore } from '@/stores/users'
 import { dayjs, createListResource } from 'frappe-ui'
 import { sameArrayContents } from '@/utils'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { allTimeSlots } from '@/components/Calendar/utils'
 
 export const showEventModal = ref(false)
@@ -43,69 +43,80 @@ export function useEvent(doctype, docname) {
     parent: 'Event',
   })
 
-  const events = computed(() => {
+  // Track event names to fetch participants when they change
+  const eventNames = computed(() => {
     if (!eventsResource.data) return []
-    const eventNames = eventsResource.data.map((e) => e.name)
-    if (
-      !eventParticipantsResource.data?.length ||
-      eventsParticipantIsUpdated(eventNames)
-    ) {
+    return eventsResource.data.map((e) => e.name)
+  })
+
+  // Watch for event name changes and fetch participants (side effect moved out of computed)
+  watch(
+    eventNames,
+    (names, oldNames) => {
+      if (!names.length) return
+      if (sameArrayContents(names, oldNames || [])) return
+
       eventParticipantsResource.update({
         filters: {
           parenttype: 'Event',
           parentfield: 'event_participants',
-          parent: ['in', eventNames],
+          parent: ['in', names],
         },
       })
-      !eventParticipantsResource.loading && eventParticipantsResource.reload()
-    } else {
-      eventsResource.data.forEach((event) => {
-        if (typeof event.owner !== 'object') {
-          event.owner = {
-            label: getUser(event.owner).full_name,
-            image: getUser(event.owner).user_image,
-            name: event.owner,
-          }
-        }
+      if (!eventParticipantsResource.loading) {
+        eventParticipantsResource.reload()
+      }
+    },
+    { immediate: true }
+  )
 
-        event.event_participants = [
-          ...eventParticipantsResource.data.filter(
-            (participant) => participant.parent === event.name,
-          ),
-        ]
-
-        event.participants = [
-          event.owner,
-          ...eventParticipantsResource.data
-            .filter((participant) => participant.parent === event.name)
-            .map((participant) => ({
-              label: getUser(participant.email).full_name || participant.email,
-              image: getUser(participant.email).user_image || '',
-              name: participant.email,
-            })),
-        ]
-      })
+  // Also refetch participants when setValue.data changes (event was updated)
+  watch(
+    () => eventsResource.setValue?.data,
+    (data) => {
+      if (!data) return
+      if (!eventParticipantsResource.loading) {
+        eventParticipantsResource.reload()
+      }
     }
+  )
 
-    return eventsResource.data
+  // Pure computed - transforms data without mutations or side effects
+  const events = computed(() => {
+    if (!eventsResource.data) return []
+
+    // Return transformed data without mutating the original
+    return eventsResource.data.map((event) => {
+      const ownerData =
+        typeof event.owner === 'object'
+          ? event.owner
+          : {
+              label: getUser(event.owner).full_name,
+              image: getUser(event.owner).user_image,
+              name: event.owner,
+            }
+
+      const eventParticipants = (eventParticipantsResource.data || []).filter(
+        (participant) => participant.parent === event.name
+      )
+
+      const participants = [
+        ownerData,
+        ...eventParticipants.map((participant) => ({
+          label: getUser(participant.email).full_name || participant.email,
+          image: getUser(participant.email).user_image || '',
+          name: participant.email,
+        })),
+      ]
+
+      return {
+        ...event,
+        owner: ownerData,
+        event_participants: eventParticipants,
+        participants,
+      }
+    })
   })
-
-  function eventsParticipantIsUpdated(eventNames) {
-    const parentFilter = eventParticipantsResource.filters?.parent?.[1]
-
-    if (eventNames.length && !sameArrayContents(parentFilter, eventNames))
-      return true
-
-    let d = eventsResource.setValue.data
-    if (!d) return false
-
-    let newParticipants = d.event_participants.map((p) => p.name)
-    let oldParticipants = eventParticipantsResource.data
-      .filter((p) => p.parent === d.name)
-      .map((p) => p.name)
-
-    return !sameArrayContents(newParticipants, oldParticipants)
-  }
 
   const startEndTime = (
     startTime,

@@ -603,13 +603,22 @@ function getFromToTime(time) {
   let fromMinute = m
   if (time) {
     if (/am|pm/i.test(time)) {
-      const raw = time.trim().replace(' ', '')
+      // Parse times like "10:30am", "10:30 AM", "10am", "10 PM"
+      const raw = time.trim().replace(/\s+/g, '')
       const ampm = raw.slice(-2).toLowerCase()
-      let hour = parseInt(raw.slice(0, -2))
+      const timePart = raw.slice(0, -2)
+      let hour, minute = 0
+      if (timePart.includes(':')) {
+        const [hh, mm] = timePart.split(':')
+        hour = parseInt(hh)
+        minute = parseInt(mm) || 0
+      } else {
+        hour = parseInt(timePart)
+      }
       if (ampm === 'pm' && hour < 12) hour += 12
       if (ampm === 'am' && hour === 12) hour = 0
       fromHour = hour
-      fromMinute = 0
+      fromMinute = minute
     } else if (/^\d{1,2}:?\d{0,2}$/.test(time)) {
       const [hh, mm = '00'] = time.split(':')
       fromHour = parseInt(hh)
