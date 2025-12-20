@@ -444,7 +444,7 @@ function fetchEvent(oldMode) {
     }
 
     if (event.value.id === 'duplicate-event' && oldMode !== 'duplicate') {
-      _event.value.title = _event.value.title + ' (Copy)'
+      _event.value.title = (_event.value.title || '') + ' (Copy)'
     }
   }
   showAllParticipants.value = false
@@ -500,7 +500,7 @@ function saveEvent() {
   error.value = null
   if (!_event.value.title) {
     error.value = __('Title is required')
-    eventTitle.value.el.focus()
+    eventTitle.value?.el?.focus()
     return
   }
 

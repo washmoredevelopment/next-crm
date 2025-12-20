@@ -487,9 +487,9 @@ function parseToDo(data) {
       filters: { name: data.custom_linked_event },
       fieldname: ['sync_with_google_calendar', 'google_calendar'],
     }).then((res) => {
-      if (res?.message) {
-        _linkedEvent.value.syncWithGoogleCalendar = res.message.sync_with_google_calendar
-        _linkedEvent.value.googleCalendar = res.message.google_calendar
+      if (res) {
+        _linkedEvent.value.syncWithGoogleCalendar = res.sync_with_google_calendar
+        _linkedEvent.value.googleCalendar = res.google_calendar
       }
     })
   } else {
