@@ -126,6 +126,7 @@ import ToDoIcon from '@/components/Icons/ToDoIcon.vue'
 import FileTextIcon from '@/components/Icons/FileTextIcon.vue'
 import PhoneIcon from '@/components/Icons/PhoneIcon.vue'
 import ProspectsIcon from '@/components/Icons/ProspectsIcon.vue'
+import CalendarIcon from '@/components/Icons/CalendarIcon.vue'
 import CollapseSidebar from '@/components/Icons/CollapseSidebar.vue'
 import NotificationsIcon from '@/components/Icons/NotificationsIcon.vue'
 // import SearchIcon from '@/components/Icons/SearchIcon.vue'
@@ -176,6 +177,11 @@ const links = computed(() =>
       label: 'Customers',
       icon: CustomersIcon,
       to: 'Customers',
+    },
+    {
+      label: 'Calendar',
+      icon: CalendarIcon,
+      to: 'Calendar',
     },
     {
       label: 'Reports',

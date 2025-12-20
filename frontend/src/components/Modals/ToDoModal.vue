@@ -18,9 +18,9 @@
           {{ editMode ? __('Edit ToDo') : __('Create ToDo') }}
         </h3>
         <Button
-          v-if="(todo?.reference_name && todo?.reference_type == 'Opportunity') || todo?.reference_type == 'Lead'"
+          v-if="_todo.reference_name && ['Lead', 'Opportunity', 'Prospect'].includes(_todo.reference_type)"
           size="sm"
-          :label="todo.reference_type == 'Opportunity' ? __('Open Opportunity') : __('Open Lead')"
+          :label="__('Open {0}', [_todo.reference_type])"
           @click="redirect()"
         >
           <template #suffix>
@@ -120,6 +120,23 @@
           </Dropdown>
         </div>
         <div class="flex flex-wrap items-center gap-2">
+          <Dropdown :options="referenceTypeOptions">
+            <Button :label="_todo.reference_type || __('Link to...')" class="justify-between">
+              <template #prefix>
+                <component :is="referenceTypeIcon" class="h-4 w-4" />
+              </template>
+            </Button>
+          </Dropdown>
+          <Link
+            v-if="_todo.reference_type"
+            class="form-control w-48"
+            v-model="_todo.reference_name"
+            :doctype="_todo.reference_type"
+            :placeholder="__('Select {0}', [_todo.reference_type])"
+            :filters="referenceFilters"
+          />
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
           <FormControl
             class="form-control"
             type="checkbox"
@@ -167,6 +184,10 @@
 import ToDoStatusIcon from '@/components/Icons/ToDoStatusIcon.vue'
 import ToDoPriorityIcon from '@/components/Icons/ToDoPriorityIcon.vue'
 import ArrowUpRightIcon from '@/components/Icons/ArrowUpRightIcon.vue'
+import LeadsIcon from '@/components/Icons/LeadsIcon.vue'
+import OpportunitiesIcon from '@/components/Icons/OpportunitiesIcon.vue'
+import ProspectsIcon from '@/components/Icons/ProspectsIcon.vue'
+import LinkIcon from '@/components/Icons/LinkIcon.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
 import Link from '@/components/Controls/Link.vue'
 import MultiValueInput from '../Controls/MultiValueInput.vue'
@@ -174,7 +195,7 @@ import { todoStatusOptions, todoPriorityOptions } from '@/utils'
 import { usersStore } from '@/stores/users'
 import { capture } from '@/telemetry'
 import { TextEditor, Dropdown, Tooltip, call, DatePicker, TextInput, toast } from 'frappe-ui'
-import { ref, watch, nextTick, onMounted } from 'vue'
+import { ref, watch, nextTick, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { getMeta } from '@/stores/meta'
 import { dateFormat } from '@/utils'
@@ -227,6 +248,57 @@ const _event = ref({
 
 const event_participants = ref([])
 
+const referenceTypeOptions = [
+  {
+    label: __('None'),
+    onClick: () => {
+      _todo.value.reference_type = ''
+      _todo.value.reference_name = ''
+    },
+  },
+  {
+    label: __('Lead'),
+    onClick: () => {
+      _todo.value.reference_type = 'Lead'
+      _todo.value.reference_name = ''
+    },
+  },
+  {
+    label: __('Opportunity'),
+    onClick: () => {
+      _todo.value.reference_type = 'Opportunity'
+      _todo.value.reference_name = ''
+    },
+  },
+  {
+    label: __('Prospect'),
+    onClick: () => {
+      _todo.value.reference_type = 'Prospect'
+      _todo.value.reference_name = ''
+    },
+  },
+]
+
+const referenceTypeIcon = computed(() => {
+  switch (_todo.value.reference_type) {
+    case 'Lead':
+      return LeadsIcon
+    case 'Opportunity':
+      return OpportunitiesIcon
+    case 'Prospect':
+      return ProspectsIcon
+    default:
+      return LinkIcon
+  }
+})
+
+const referenceFilters = computed(() => {
+  if (_todo.value.reference_type === 'Lead') {
+    return { status: ['!=', 'Converted'] }
+  }
+  return {}
+})
+
 function updateToDoStatus(status) {
   _todo.value.status = status
 }
@@ -252,13 +324,22 @@ function updateAssignee(option) {
 }
 
 function redirect() {
-  if (!props.todo?.reference_name) return
-  let name = props.todo.reference_type == 'Opportunity' ? 'Opportunity' : 'Lead'
-  let params = { leadId: props.todo.reference_name }
-  if (name == 'Opportunity') {
-    params = { opportunityId: props.todo.reference_name }
+  if (!_todo.value.reference_name) return
+  const refType = _todo.value.reference_type
+  let routeName = refType
+  let params = {}
+
+  if (refType === 'Lead') {
+    params = { leadId: _todo.value.reference_name }
+  } else if (refType === 'Opportunity') {
+    params = { opportunityId: _todo.value.reference_name }
+  } else if (refType === 'Prospect') {
+    params = { prospectId: _todo.value.reference_name }
+  } else {
+    return
   }
-  router.push({ name: name, params: params })
+
+  router.push({ name: routeName, params })
 }
 
 async function updateToDo() {
@@ -408,11 +489,14 @@ async function updateToDo() {
           return
         }
       }
+      // Use explicit reference_type if set (including empty string for "None"), otherwise fall back to props
+      const refType = _todo.value.reference_type !== undefined ? _todo.value.reference_type : props.doctype
+      const refName = _todo.value.reference_name !== undefined ? _todo.value.reference_name : props.doc || null
       let d = await call('frappe.client.insert', {
         doc: {
           doctype: 'ToDo',
-          reference_type: props.doctype,
-          reference_name: props.doc || null,
+          reference_type: refType || null,
+          reference_name: refType ? refName : null,
           ..._todo.value,
         },
       })
