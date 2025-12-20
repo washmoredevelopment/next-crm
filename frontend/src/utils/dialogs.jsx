@@ -3,6 +3,10 @@ import { reactive, ref } from 'vue'
 
 let dialogs = ref([])
 
+export function isDialogOpen() {
+  return dialogs.value.some((d) => d.show)
+}
+
 export let Dialogs = {
   name: 'Dialogs',
   render() {

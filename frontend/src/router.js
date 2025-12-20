@@ -118,6 +118,11 @@ const routes = [
     props: true,
   },
   {
+    path: '/calendar',
+    name: 'Calendar',
+    component: () => import('@/pages/Calendar.vue'),
+  },
+  {
     alias: '/reports',
     path: '/reports/view/:viewType?',
     name: 'Reports',

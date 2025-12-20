@@ -397,3 +397,11 @@ export const sanitizeCurrency = (str) => {
 }
 
 export const replaceMeWithUser = (obj, user) => ({ ...obj, ...Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, v === "@me" ? user : v])) });
+
+export function sameArrayContents(a, b) {
+  if (!Array.isArray(a) || !Array.isArray(b)) return false
+  if (a.length !== b.length) return false
+  const sortedA = [...a].sort()
+  const sortedB = [...b].sort()
+  return sortedA.every((val, idx) => val === sortedB[idx])
+}

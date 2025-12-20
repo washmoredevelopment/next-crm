@@ -85,6 +85,7 @@ import ContactsIcon from '@/components/Icons/ContactsIcon.vue'
 import CustomersIcon from '@/components/Icons/CustomersIcon.vue'
 import ToDoIcon from '@/components/Icons/ToDoIcon.vue'
 import PhoneIcon from '@/components/Icons/PhoneIcon.vue'
+import CalendarIcon from '@/components/Icons/CalendarIcon.vue'
 import NotificationsIcon from '@/components/Icons/NotificationsIcon.vue'
 import SidebarLink from '@/components/SidebarLink.vue'
 import { viewsStore } from '@/stores/views'
@@ -119,6 +120,11 @@ const links = [
     label: 'Customers',
     icon: CustomersIcon,
     to: 'Customers',
+  },
+  {
+    label: 'Calendar',
+    icon: CalendarIcon,
+    to: 'Calendar',
   },
   {
     label: 'ToDos',
