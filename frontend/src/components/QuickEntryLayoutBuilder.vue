@@ -7,10 +7,7 @@
             <div
               class="flex h-7 max-w-fit cursor-pointer items-center gap-2 text-base font-medium leading-4 text-ink-gray-9"
             >
-              <div
-                v-if="!section.editingLabel"
-                :class="{ 'text-ink-gray-3': section.hideLabel }"
-              >
+              <div v-if="!section.editingLabel" :class="{ 'text-ink-gray-3': section.hideLabel }">
                 {{ __(section.label) || __('Untitled') }}
               </div>
               <div v-else class="flex gap-2 items-center">
@@ -41,9 +38,7 @@
             group="fields"
             item-key="label"
             class="grid gap-1.5"
-            :class="
-              section.columns ? 'grid-cols-' + section.columns : 'grid-cols-3'
-            "
+            :class="section.columns ? 'grid-cols-' + section.columns : 'grid-cols-3'"
             handle=".cursor-grab"
           >
             <template #item="{ element: field }">
@@ -58,19 +53,12 @@
                   variant="ghost"
                   class="!size-4 rounded-sm"
                   icon="x"
-                  @click="
-                    section.fields.splice(section.fields.indexOf(field), 1)
-                  "
+                  @click="section.fields.splice(section.fields.indexOf(field), 1)"
                 />
               </div>
             </template>
           </Draggable>
-          <Autocomplete
-            v-if="fields.data"
-            value=""
-            :options="fields.data"
-            @change="(e) => addField(section, e)"
-          >
+          <Autocomplete v-if="fields.data" value="" :options="fields.data" @change="(e) => addField(section, e)">
             <template #target="{ togglePopover }">
               <div class="gap-2 w-full">
                 <Button
@@ -129,14 +117,7 @@ const props = defineProps({
   doctype: String,
 })
 
-const restrictedFieldTypes = [
-  'Table',
-  'Geolocation',
-  'Attach',
-  'Attach Image',
-  'HTML',
-  'Signature',
-]
+const restrictedFieldTypes = ['Table', 'Geolocation', 'Attach', 'Attach Image', 'HTML', 'Signature']
 
 const params = computed(() => {
   return {
@@ -179,15 +160,13 @@ function getOptions(section) {
     {
       label: 'Add Column',
       icon: 'columns',
-      onClick: () =>
-        (section.columns = section.columns ? section.columns + 1 : 4),
+      onClick: () => (section.columns = section.columns ? section.columns + 1 : 4),
       condition: () => !section.columns || section.columns < 4,
     },
     {
       label: 'Remove Column',
       icon: 'columns',
-      onClick: () =>
-        (section.columns = section.columns ? section.columns - 1 : 2),
+      onClick: () => (section.columns = section.columns ? section.columns - 1 : 2),
       condition: () => !section.columns || section.columns > 1,
     },
     {

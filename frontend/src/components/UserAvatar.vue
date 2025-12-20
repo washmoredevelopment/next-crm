@@ -1,9 +1,5 @@
 <template>
-  <Avatar
-    :label="getUser(user).full_name"
-    :image="getUser(user).user_image"
-    v-bind="$attrs"
-  />
+  <Avatar :label="getUser(user).full_name" :image="getUser(user).user_image" v-bind="$attrs" />
 </template>
 <script setup>
 import { usersStore } from '@/stores/users'

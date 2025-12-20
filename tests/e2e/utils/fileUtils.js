@@ -1,11 +1,6 @@
 import path from "path";
 import fs from "fs";
 import lockfile from "proper-lockfile";
-import { fileURLToPath } from "url";
-
-// Get __dirname equivalent in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // Import all data sources
 
@@ -132,27 +127,11 @@ export const writeDataToFile = async (filePath, data, maxRetries = 5) => {
       } catch (lockErr) {
         console.warn(`⚠️ Could not acquire lock for writing (attempt ${attempt}/${maxRetries}): ${absolutePath}`);
 
-        // If file doesn't exist yet, create it atomically
+        // If file doesn't exist yet, create it without lock
         if (lockErr.code === "ENOENT") {
-          try {
-            // 'wx' flag = write + exclusive (fails if file exists)
-            // This ensures only one worker creates the file
-            await fs.promises.writeFile(absolutePath, JSON.stringify(data, null, 2), {
-              encoding: "utf-8",
-              flag: "wx", // Creates only if doesn't exist
-            });
-            console.log(`✅ Created new file: ${absolutePath}`);
-            return;
-          } catch (writeErr) {
-            if (writeErr.code === "EEXIST") {
-              // Another worker just created it, retry with lock
-              console.warn(
-                `⚠️ File was created by another worker, retrying with lock (attempt ${attempt}/${maxRetries})`,
-              );
-              continue;
-            }
-            throw writeErr;
-          }
+          await fs.promises.writeFile(absolutePath, JSON.stringify(data, null, 2), "utf-8");
+          console.log(`✅ Created new file: ${absolutePath}`);
+          return;
         }
 
         // For other lock errors, retry

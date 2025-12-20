@@ -1,12 +1,7 @@
 <template>
   <span>
     <a :href="isShowable ? null : url" target="_blank">
-      <Button
-        :label="label"
-        theme="gray"
-        variant="outline"
-        @click="toggleDialog()"
-      >
+      <Button :label="label" theme="gray" variant="outline" @click="toggleDialog()">
         <template #prefix>
           <component :is="getIcon()" class="h-4 w-4" />
         </template>
@@ -23,10 +18,7 @@
       }"
     >
       <template #body-content>
-        <div
-          v-if="isText"
-          class="prose prose-sm max-w-none whitespace-pre-wrap"
-        >
+        <div v-if="isText" class="prose prose-sm max-w-none whitespace-pre-wrap">
           {{ content }}
         </div>
         <img v-if="isImage" :src="url" class="m-auto rounded border" />

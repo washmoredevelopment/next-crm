@@ -1,11 +1,5 @@
 <template>
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M5.05142 5.27273H2.6926C2.3798 5.27273 2.07981 5.38766 1.85863 5.59225C1.63744 5.79683 1.51318 6.07431 1.51318 6.36364V9.63636C1.51318 9.92569 1.63744 10.2032 1.85863 10.4078C2.07981 10.6123 2.3798 10.7273 2.6926 10.7273H5.05142L9.76908 14V2L5.05142 5.27273Z"
       stroke="currentColor"
@@ -24,15 +18,7 @@
       stroke-linecap="round"
       stroke-linejoin="round"
     />
-    <path
-      d="M5.25 3.07596L13.7286 12.2609"
-      stroke="white"
-      stroke-linecap="round"
-    />
-    <path
-      d="M2.97913 2.0192L14.0209 13.9808"
-      stroke="currentColor"
-      stroke-linecap="round"
-    />
+    <path d="M5.25 3.07596L13.7286 12.2609" stroke="white" stroke-linecap="round" />
+    <path d="M2.97913 2.0192L14.0209 13.9808" stroke="currentColor" stroke-linecap="round" />
   </svg>
 </template>

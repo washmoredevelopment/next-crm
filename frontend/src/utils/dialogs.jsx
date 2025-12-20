@@ -7,20 +7,12 @@ export let Dialogs = {
   name: 'Dialogs',
   render() {
     return dialogs.value.map((dialog) => (
-      <Dialog
-        options={dialog}
-        modelValue={dialog.show}
-        onUpdate:modelValue={(val) => (dialog.show = val)}
-      >
+      <Dialog options={dialog} modelValue={dialog.show} onUpdate:modelValue={(val) => (dialog.show = val)}>
         {{
           'body-content': () => {
             return [
-              dialog.message && (
-                <p class="text-p-base text-ink-gray-7">{dialog.message}</p>
-              ),
-              dialog.html && (
-                <div v-html={dialog.html} />
-              ),
+              dialog.message && <p class="text-p-base text-ink-gray-7">{dialog.message}</p>,
+              dialog.html && <div v-html={dialog.html} />,
               <ErrorMessage class="mt-2" message={dialog.error} />,
             ]
           },

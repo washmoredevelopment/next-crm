@@ -1,7 +1,7 @@
 import { request } from "@playwright/test";
 import path from "path";
 import fs from "fs";
-import config from "../../playwright.config.js";
+import config from "../playwright.config";
 
 // Load config variables
 const baseURL = config.use?.baseURL;

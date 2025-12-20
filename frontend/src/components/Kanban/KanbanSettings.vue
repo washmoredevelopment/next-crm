@@ -1,9 +1,5 @@
 <template>
-  <Button
-    :label="__('Kanban Settings')"
-    @click="showDialog = true"
-    v-bind="$attrs"
-  >
+  <Button :label="__('Kanban Settings')" @click="showDialog = true" v-bind="$attrs">
     <template #prefix>
       <KanbanIcon class="h-4" />
     </template>
@@ -14,35 +10,17 @@
         <div class="text-base text-ink-gray-8 mb-2">
           {{ __('Column Field') }}
         </div>
-        <Autocomplete
-          v-if="columnFields"
-          value=""
-          :options="columnFields"
-          @change="(f) => (columnField = f)"
-        >
+        <Autocomplete v-if="columnFields" value="" :options="columnFields" @change="(f) => (columnField = f)">
           <template #target="{ togglePopover }">
-            <Button
-              class="w-full !justify-start"
-              @click="togglePopover()"
-              :label="columnField.label"
-            />
+            <Button class="w-full !justify-start" @click="togglePopover()" :label="columnField.label" />
           </template>
         </Autocomplete>
         <div class="text-base text-ink-gray-8 mb-2 mt-4">
           {{ __('Title Field') }}
         </div>
-        <Autocomplete
-          v-if="fields.data"
-          value=""
-          :options="fields.data"
-          @change="(f) => (titleField = f)"
-        >
+        <Autocomplete v-if="fields.data" value="" :options="fields.data" @change="(f) => (titleField = f)">
           <template #target="{ togglePopover }">
-            <Button
-              class="w-full !justify-start"
-              @click="togglePopover()"
-              :label="titleField.label"
-            />
+            <Button class="w-full !justify-start" @click="togglePopover()" :label="titleField.label" />
           </template>
         </Autocomplete>
       </div>
@@ -50,13 +28,7 @@
         <div class="text-base text-ink-gray-8 mb-2">
           {{ __('Fields Order') }}
         </div>
-        <Draggable
-          :list="allFields"
-          @end="reorder"
-          group="fields"
-          item-key="name"
-          class="flex flex-col gap-1"
-        >
+        <Draggable :list="allFields" @end="reorder" group="fields" item-key="name" class="flex flex-col gap-1">
           <template #item="{ element: field }">
             <div
               class="px-1 py-0.5 border border-outline-gray-modals rounded text-base text-ink-gray-8 flex items-center justify-between gap-2"
@@ -71,18 +43,9 @@
             </div>
           </template>
         </Draggable>
-        <Autocomplete
-          v-if="fields.data"
-          value=""
-          :options="fields.data"
-          @change="(e) => addField(e)"
-        >
+        <Autocomplete v-if="fields.data" value="" :options="fields.data" @change="(e) => addField(e)">
           <template #target="{ togglePopover }">
-            <Button
-              class="w-full mt-2"
-              @click="togglePopover()"
-              :label="__('Add Field')"
-            >
+            <Button class="w-full mt-2" @click="togglePopover()" :label="__('Add Field')">
               <template #prefix>
                 <FeatherIcon name="plus" class="h-4" />
               </template>
@@ -100,12 +63,7 @@
       </div>
     </template>
     <template #actions>
-      <Button
-        class="w-full"
-        variant="solid"
-        @click="apply"
-        :label="__('Apply')"
-      />
+      <Button class="w-full" variant="solid" @click="apply" :label="__('Apply')" />
     </template>
   </Dialog>
 </template>
@@ -154,11 +112,7 @@ const titleField = computed({
 })
 
 const columnFields = computed(() => {
-  return (
-    fields.data?.filter((field) =>
-      ['Link', 'Select'].includes(field.fieldtype),
-    ) || []
-  )
+  return fields.data?.filter((field) => ['Link', 'Select'].includes(field.fieldtype)) || []
 })
 
 const fields = createResource({

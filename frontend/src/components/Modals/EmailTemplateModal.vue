@@ -131,8 +131,7 @@ async function updateEmailTemplate() {
   delete old.name
   delete newEmailTemplate.name
 
-  const otherFieldChanged =
-    JSON.stringify(old) !== JSON.stringify(newEmailTemplate)
+  const otherFieldChanged = JSON.stringify(old) !== JSON.stringify(newEmailTemplate)
   const values = newEmailTemplate
 
   if (!nameChanged && !otherFieldChanged) {
@@ -188,9 +187,7 @@ function handleEmailTemplateUpdate(doc) {
 }
 
 function validate() {
-  _emailTemplate.value.use_html = Boolean(
-    _emailTemplate.value.content_type == 'HTML',
-  )
+  _emailTemplate.value.use_html = Boolean(_emailTemplate.value.content_type == 'HTML')
   if (!_emailTemplate.value.name) {
     errorMessage.value = 'Name is required'
     return false
@@ -201,8 +198,7 @@ function validate() {
   }
   if (
     !_emailTemplate.value.use_html &&
-    (!_emailTemplate.value.response ||
-      _emailTemplate.value.response === '<p></p>')
+    (!_emailTemplate.value.response || _emailTemplate.value.response === '<p></p>')
   ) {
     errorMessage.value = 'Content is required'
     return false
@@ -227,9 +223,7 @@ watch(
         nameRef.value.el.focus()
       }
       _emailTemplate.value = { ...props.emailTemplate }
-      _emailTemplate.value.content_type = _emailTemplate.value.use_html
-        ? 'HTML'
-        : 'Rich Text'
+      _emailTemplate.value.content_type = _emailTemplate.value.use_html ? 'HTML' : 'Rich Text'
       if (_emailTemplate.value.name) {
         editMode.value = true
       }

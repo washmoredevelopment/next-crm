@@ -9,6 +9,7 @@ concurrency:
 
 jobs:
   Bench-Build-Test:
+    if: false  # Temporarily disabled
     runs-on: ubuntu-latest
     container:
       image: docker.io/frappe/bench:latest

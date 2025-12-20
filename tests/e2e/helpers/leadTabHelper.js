@@ -7,12 +7,12 @@ import { filterApi } from "../utils/api/frappeRequests.js";
 
 /**
  * Creates Lead(s) for provided testCaseID(s).
- * @param {string[]} testCaseID  IDs to process
+ * @param {string[]} testCaseIDs  IDs to process
  * @param {string} jsonDir  Directory where JSON stubs are located
  */
-export const createLeadForTestCases = async (testCaseID, jsonDir) => {
-  if (!Array.isArray(testCaseID) || testCaseID.length === 0) return;
-  const [tcId] = testCaseID;
+export const createLeadForTestCases = async (testCaseIDs, jsonDir) => {
+  if (!Array.isArray(testCaseIDs) || testCaseIDs.length === 0) return;
+  const [tcId] = testCaseIDs;
   const stubPath = path.join(jsonDir, `${tcId}.json`);
   const fullStub = await readJSONFile(stubPath);
   const entry = fullStub[tcId];
@@ -33,12 +33,12 @@ export const createLeadForTestCases = async (testCaseID, jsonDir) => {
 
 /**
  * Deletes Lead(s) for provided testCaseID(s).
- * @param {string[]} testCaseID  IDs to process
+ * @param {string[]} testCaseIDs  IDs to process
  * @param {string} jsonDir  Directory where JSON stubs are located
  */
-export const deleteLeadForTestCases = async (testCaseID, jsonDir) => {
-  if (!Array.isArray(testCaseID) || testCaseID.length === 0) return;
-  const [tcId] = testCaseID;
+export const deleteLeadForTestCases = async (testCaseIDs, jsonDir) => {
+  if (!Array.isArray(testCaseIDs) || testCaseIDs.length === 0) return;
+  const [tcId] = testCaseIDs;
   const stubPath = path.join(jsonDir, `${tcId}.json`);
   const fullStub = await readJSONFile(stubPath);
   const entry = fullStub[tcId];

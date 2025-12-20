@@ -3,9 +3,7 @@
     <Draggable :list="sections" item-key="label" class="flex flex-col gap-5.5">
       <template #item="{ element: section }">
         <div class="flex flex-col gap-3">
-          <div
-            class="flex items-center justify-between rounded px-2.5 py-2 bg-gray-2"
-          >
+          <div class="flex items-center justify-between rounded px-2.5 py-2 bg-gray-2">
             <div
               class="flex max-w-fit cursor-pointer items-center gap-2 text-base leading-4 text-ink-gray-9"
               @click="section.opened = !section.opened"
@@ -72,9 +70,7 @@
                     variant="ghost"
                     icon="x"
                     class="!size-4 rounded-sm"
-                    @click="
-                      section.fields.splice(section.fields.indexOf(field), 1)
-                    "
+                    @click="section.fields.splice(section.fields.indexOf(field), 1)"
                   />
                 </div>
               </template>
@@ -123,9 +119,7 @@
         class="w-full h-8"
         variant="subtle"
         :label="__('Add Section')"
-        @click="
-          sections.push({ label: __('New Section'), opened: true, fields: [] })
-        "
+        @click="sections.push({ label: __('New Section'), opened: true, fields: [] })"
       >
         <template #prefix>
           <FeatherIcon name="plus" class="h-4" />
@@ -147,14 +141,7 @@ const props = defineProps({
   doctype: String,
 })
 
-const restrictedFieldTypes = [
-  'Table',
-  'Geolocation',
-  'Attach',
-  'Attach Image',
-  'HTML',
-  'Signature',
-]
+const restrictedFieldTypes = ['Table', 'Geolocation', 'Attach', 'Attach Image', 'HTML', 'Signature']
 
 const params = computed(() => {
   return {

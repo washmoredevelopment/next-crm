@@ -1,11 +1,7 @@
 // @ts-check
-import { defineConfig, devices } from "@playwright/test";
-import path from "path";
-import dotenv from "dotenv";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const { defineConfig, devices } = require("@playwright/test");
+const path = require("path");
+const dotenv = require("dotenv");
 
 // Load environment variables from .env in this folder
 dotenv.config({ path: "./.env" });
@@ -13,7 +9,7 @@ dotenv.config({ path: "./.env" });
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
-export default defineConfig({
+module.exports = defineConfig({
   /* Global setup file */
   globalSetup: "./globals/globalSetup.js",
 
@@ -39,7 +35,7 @@ export default defineConfig({
   workers: process.env.CI ? 7 : undefined, // Use 7 workers on CI, defaults to the number of CPU cores otherwise
 
   // Limit the number of failures on CI to save resources
-  maxFailures: process.env.CI ? 5 : undefined, // Max failures on CI = 5, no limit locally
+  maxFailures: process.env.CI ? 5 : undefined, // Max faliures on CI = 5, no limit locally
 
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
