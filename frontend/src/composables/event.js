@@ -34,9 +34,7 @@ export function useEvent(doctype, docname) {
     },
     auto: true,
     orderBy: 'creation desc',
-    onSuccess: (d) => {
-      console.log(d)
-    },
+    onSuccess: () => {},
   })
 
   const eventParticipantsResource = createListResource({
@@ -59,8 +57,7 @@ export function useEvent(doctype, docname) {
           parent: ['in', eventNames],
         },
       })
-      !eventParticipantsResource.list.loading &&
-        eventParticipantsResource.reload()
+      !eventParticipantsResource.loading && eventParticipantsResource.reload()
     } else {
       eventsResource.data.forEach((event) => {
         if (typeof event.owner !== 'object') {

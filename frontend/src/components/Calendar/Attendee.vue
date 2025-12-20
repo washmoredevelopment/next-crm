@@ -206,7 +206,7 @@ const filterOptions = createResource({
 })
 
 const options = computed(() => {
-  let searchedContacts = props.fetchContacts ? filterOptions.data : []
+  let searchedContacts = props.fetchContacts ? filterOptions.data || [] : []
   if (!searchedContacts?.length && query.value) {
     searchedContacts.push({
       name: 'new',

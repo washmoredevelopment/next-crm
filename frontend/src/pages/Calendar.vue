@@ -445,7 +445,10 @@ function deleteEvent(eventID) {
 
 function syncEvent(eventID, _event) {
   if (!eventID) return
-  Object.assign(events.data.filter((event) => event.id === eventID)[0], _event)
+  const target = events.data.find((event) => event.id === eventID)
+  if (target) {
+    Object.assign(target, _event)
+  }
 }
 
 onMounted(() => {

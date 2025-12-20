@@ -526,7 +526,10 @@ function editDetails() {
 
 function duplicateEvent() {
   if (dirty.value) {
-    showDiscardChangesModal(() => reset())
+    showDiscardChangesModal(() => {
+      reset()
+      emit('duplicate', _event.value)
+    })
   } else {
     emit('duplicate', _event.value)
   }
@@ -538,7 +541,10 @@ function deleteEvent() {
 
 function details() {
   if (dirty.value) {
-    showDiscardChangesModal(() => reset())
+    showDiscardChangesModal(() => {
+      reset()
+      emit('details', _event.value)
+    })
   } else {
     emit('details', _event.value)
   }
