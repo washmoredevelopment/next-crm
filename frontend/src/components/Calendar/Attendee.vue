@@ -289,7 +289,7 @@ const addValue = (option) => {
       continue
     }
     existing.add(p)
-    const entry = { email: p }
+    const entry = { email: p, reference_doctype: 'Contact' }
 
     if (option.name && !hasMultiple) {
       entry.reference_docname = option.name

@@ -230,10 +230,10 @@ export function parseEventDoc(doc) {
     googleCalendar: doc.google_calendar || null,
     owner: doc.owner
       ? {
-          label: getUser(doc.owner).full_name,
-          image: getUser(doc.owner).user_image,
-          value: doc.owner,
-        }
+        label: getUser(doc.owner).full_name,
+        image: getUser(doc.owner).user_image,
+        value: doc.owner,
+      }
       : null,
   }
 }

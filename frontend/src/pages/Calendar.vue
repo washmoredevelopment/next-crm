@@ -119,10 +119,34 @@
         @sync="syncEvent"
       />
     </div>
+
+    <!-- ToDo Panel Container -->
+    <div
+      class="overflow-hidden flex-none transition-all duration-300 ease-in-out flex flex-col"
+      :class="
+        showToDoPanel
+          ? 'w-[352px] border-l bg-surface-white'
+          : 'w-0 border-l-0'
+      "
+    >
+      <ToDoCalendarPanel
+        ref="todoPanel"
+        v-if="showToDoPanel"
+        v-model="showToDoPanel"
+        :todo="selectedTodo"
+        :mode="todoMode"
+        @save="onToDoSave"
+        @delete="onToDoDelete"
+        @edit="onToDoEdit"
+        @details="onToDoDetails"
+        @close="closeToDo"
+      />
+    </div>
   </div>
 </template>
 <script setup>
 import CalendarEventPanel from '@/components/Calendar/CalendarEventPanel.vue'
+import ToDoCalendarPanel from '@/components/Calendar/ToDoCalendarPanel.vue'
 import ViewBreadcrumbs from '@/components/ViewBreadcrumbs.vue'
 import LayoutHeader from '@/components/LayoutHeader.vue'
 import ShortcutTooltip from '@/components/ShortcutTooltip.vue'
@@ -253,6 +277,12 @@ const showEventPanel = ref(false)
 const event = ref({})
 const mode = ref('')
 
+// ToDo panel state
+const todoPanel = ref(null)
+const showToDoPanel = ref(false)
+const selectedTodo = ref({})
+const todoMode = ref('details')
+
 const isCreateDisabled = computed(() =>
   ['edit', 'new', 'duplicate'].includes(mode.value),
 )
@@ -269,6 +299,14 @@ function openEvent(e, nextMode, reloadEvent = false) {
   const _e = e?.calendarEvent || e
   if (!_e?.id || isTempEvent(_e.id)) return
   removeTempEvents()
+  
+  // Close ToDo panel if open
+  if (showToDoPanel.value) {
+    showToDoPanel.value = false
+    selectedTodo.value = {}
+    todoMode.value = 'details'
+  }
+  
   showEventPanel.value = true
   event.value = { id: _e.id, reloadEvent }
   activeEvent.value = _e.id
@@ -307,13 +345,27 @@ function createEvent(_event) {
   })
 }
 
+async function updateToDo(_todo) {
+  const todoName = _todo.id.replace('todo-', '')
+  try {
+    await call('frappe.client.set_value', {
+      doctype: 'ToDo',
+      name: todoName,
+      fieldname: { date: _todo.fromDate },
+    })
+    todos.reload()
+  } catch (e) {
+    console.error('Failed to update ToDo date', e)
+    todos.reload() // Reset position on error
+  }
+}
+
 async function updateEvent(_event, afterDrag = false) {
   if (!_event.id) return
   
-  // Skip updating ToDo items through calendar drag
+  // Handle ToDo items separately
   if (_event.id?.startsWith('todo-')) {
-    // Reload to reset position
-    todos.reload()
+    updateToDo(_event)
     return
   }
 
@@ -426,17 +478,56 @@ function showDetails(e, reloadEvent = false) {
   const _e = e?.calendarEvent || e
   // Check if it's a ToDo item
   if (_e?.id?.startsWith('todo-')) {
-    // ToDo items are read-only on calendar, just show info
-    // In future, could open ToDo modal
+    openToDo(_e, 'details')
     return
   }
   openEvent(e, 'details', reloadEvent)
 }
 
+// ToDo panel handlers
+function openToDo(todo, panelMode = 'details') {
+  // Close event panel if open
+  if (showEventPanel.value) {
+    showEventPanel.value = false
+    event.value = {}
+    activeEvent.value = ''
+    mode.value = ''
+  }
+  
+  selectedTodo.value = { ...todo }
+  todoMode.value = panelMode
+  showToDoPanel.value = true
+}
+
+function onToDoSave() {
+  todos.reload()
+  closeToDo()
+}
+
+function onToDoDelete() {
+  todos.reload()
+  closeToDo()
+}
+
+function onToDoEdit(todo) {
+  todoMode.value = 'edit'
+}
+
+function onToDoDetails(todo) {
+  todoMode.value = 'details'
+}
+
+function closeToDo() {
+  showToDoPanel.value = false
+  selectedTodo.value = {}
+  todoMode.value = 'details'
+}
+
 function editDetails(e) {
   const _e = e?.calendarEvent || e
-  // Skip editing for ToDo items
+  // Handle ToDo items
   if (_e?.id?.startsWith('todo-')) {
+    openToDo(_e, 'edit')
     return
   }
   openEvent(e, 'edit')

@@ -212,6 +212,7 @@ declare module 'vue' {
     TagInput: typeof import('./src/components/TagInput.vue')['default']
     TerritoryIcon: typeof import('./src/components/Icons/TerritoryIcon.vue')['default']
     ToDoArea: typeof import('./src/components/Activities/ToDoArea.vue')['default']
+    ToDoCalendarPanel: typeof import('./src/components/Calendar/ToDoCalendarPanel.vue')['default']
     ToDoIcon: typeof import('./src/components/Icons/ToDoIcon.vue')['default']
     ToDoModal: typeof import('./src/components/Modals/ToDoModal.vue')['default']
     ToDoPriorityIcon: typeof import('./src/components/Icons/ToDoPriorityIcon.vue')['default']
