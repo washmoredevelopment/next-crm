@@ -15,3 +15,4 @@ frontend/yarn.lock
 next_crm/www/next-crm/index.html
 build
 frontend/auto-imports.d.ts
+.cursor

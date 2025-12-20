@@ -1,0 +1,21 @@
+{
+  "sidebar": {
+    "Notifications": "View your recent notifications and alerts",
+    "Leads": "Track potential customers before they become opportunities",
+    "Opportunities": "Active sales deals in your pipeline",
+    "Prospects": "Companies or organizations you're targeting",
+    "Contacts": "People associated with your leads and customers",
+    "Addresses": "Manage billing and shipping addresses",
+    "Customers": "Your converted and active customers",
+    "Calendar": "View and manage your scheduled events and tasks",
+    "Reports": "Access sales reports and analytics",
+    "ToDos": "Track your tasks and action items",
+    "Call Logs": "View history of calls with leads and customers",
+    "Email Templates": "Manage reusable email templates"
+  },
+  "pages": {
+    "calendar.create": "Create a new event on your calendar",
+    "lead.convert": "Convert this lead into an opportunity",
+    "opportunity.close": "Mark this opportunity as won or lost"
+  }
+}

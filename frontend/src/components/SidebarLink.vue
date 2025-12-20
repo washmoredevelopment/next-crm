@@ -9,7 +9,14 @@
       :class="isCollapsed ? 'ml-[3px] p-1' : 'px-2 py-1'"
     >
       <div class="flex items-center truncate">
-        <Tooltip :text="label" placement="right" :disabled="!isCollapsed">
+        <!-- Icon with tooltip (collapsed: label only, expanded with description: rich tooltip) -->
+        <Tooltip v-if="description && isCollapsed" placement="right" :hoverDelay="0.3">
+          <template #body>
+            <div class="rounded bg-surface-gray-7 py-1.5 px-2 text-xs text-ink-white shadow-xl max-w-[200px]">
+              <div class="font-medium">{{ label }}</div>
+              <div class="mt-1 text-ink-gray-3">{{ description }}</div>
+            </div>
+          </template>
           <slot name="icon">
             <span class="grid flex-shrink-0 place-items-center">
               <FeatherIcon v-if="typeof icon == 'string'" :name="icon" class="size-4 text-ink-gray-7" />
@@ -17,7 +24,27 @@
             </span>
           </slot>
         </Tooltip>
-        <Tooltip :text="label" placement="right" :disabled="isCollapsed" :hoverDelay="1.5">
+        <Tooltip v-else :text="label" placement="right" :disabled="!isCollapsed">
+          <slot name="icon">
+            <span class="grid flex-shrink-0 place-items-center">
+              <FeatherIcon v-if="typeof icon == 'string'" :name="icon" class="size-4 text-ink-gray-7" />
+              <component v-else :is="icon" class="size-4 text-ink-gray-7" />
+            </span>
+          </slot>
+        </Tooltip>
+
+        <!-- Label with tooltip (when expanded and has description) -->
+        <Tooltip v-if="description && !isCollapsed" placement="right" :hoverDelay="0.3">
+          <template #body>
+            <div class="rounded bg-surface-gray-7 py-1.5 px-2 text-xs text-ink-white shadow-xl max-w-[200px]">
+              <div class="mt-0 text-ink-gray-3">{{ description }}</div>
+            </div>
+          </template>
+          <span class="flex-1 flex-shrink-0 truncate text-sm duration-300 ease-in-out ml-2 w-auto opacity-100">
+            {{ label }}
+          </span>
+        </Tooltip>
+        <Tooltip v-else :text="label" placement="right" :disabled="isCollapsed" :hoverDelay="1.5">
           <span
             class="flex-1 flex-shrink-0 truncate text-sm duration-300 ease-in-out"
             :class="isCollapsed ? 'ml-0 w-0 overflow-hidden opacity-0' : 'ml-2 w-auto opacity-100'"
@@ -32,7 +59,7 @@
 </template>
 
 <script setup>
-import { Tooltip } from 'frappe-ui'
+import { Tooltip, FeatherIcon } from 'frappe-ui'
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { isMobileView, mobileSidebarOpened } from '@/composables/settings'
@@ -55,6 +82,10 @@ const props = defineProps({
   isCollapsed: {
     type: Boolean,
     default: false,
+  },
+  description: {
+    type: String,
+    default: '',
   },
 })
 

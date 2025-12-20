@@ -117,6 +117,7 @@ declare module 'vue' {
     InboundCallIcon: typeof import('./src/components/Icons/InboundCallIcon.vue')['default']
     InboxIcon: typeof import('./src/components/Icons/InboxIcon.vue')['default']
     IndicatorIcon: typeof import('./src/components/Icons/IndicatorIcon.vue')['default']
+    InfoTooltip: typeof import('./src/components/InfoTooltip.vue')['default']
     KanbanIcon: typeof import('./src/components/Icons/KanbanIcon.vue')['default']
     KanbanSettings: typeof import('./src/components/Kanban/KanbanSettings.vue')['default']
     KanbanView: typeof import('./src/components/Kanban/KanbanView.vue')['default']
